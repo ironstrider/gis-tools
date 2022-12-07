@@ -9,11 +9,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "tsc && vite build && gh-pages -d dist"
   },
   "dependencies": {
     "@floating-ui/react-dom-interactions": "^0.13.1",
     "@tailwindcss/forms": "^0.5.3",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-merge-refs": "^2.0.1"
