@@ -1,14 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 import QgisQuery from './QgisQuery'
+import AreaSeparator from './AreaSeparator'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div className="App">
-      <QgisQuery />
+      <AreaSeparator />
+      {/* <hr className="my-8 border-1 border-slate-200"/>
+      <QgisQuery /> */}
     </div>
   )
 }
