@@ -1,6 +1,5 @@
-import { Tab } from "@headlessui/react";
-import React, { useState } from "react";
-import CopyButton from "./CopyButton";
+import { useState } from "react";
+import { TableDataView } from "./Table";
 
 const sampleInput = `
 RE      PERCENT TotalArea_ha
@@ -14,11 +13,40 @@ RE      PERCENT TotalArea_ha
 1.11.2a/1.3.6a  95/5    0.207005737
 `;
 
-function parseRawInput(dataText: string) {
+interface InputRow {
+  id: number,
+  regions: string[],
+  proportions: number[],
+  totalAreaHa: number,
+}
+
+interface InputTable {
+  header: string[]
+  rows: InputRow[]
+}
+
+interface IntermediateRow {
+  id: number,
+  region: string,
+  proportion: number,
+  totalAreaHa: number,
+  areaHa: number,
+}
+
+interface ResultRow {
+  region: string,
+  totalAreaHa: number,
+}
+
+function compare<T>(a: T, b: T) {
+  return a < b ? -1 : (a > b) ? 1 : 0
+}
+
+function parseRawInput(dataText: string, delimiter = /[\s]+/g): InputTable {
   const rawRows = dataText.trim().split("\n");
-  const header = rawRows.shift();
+  const header = rawRows.shift()!.split(delimiter);
   const rows = rawRows.map((rowText, i) => {
-    const cells = rowText.split(/[\s]+/g);
+    const cells = rowText.split(delimiter);
 
     const id = i + 1;
     const regions = cells[0].split('/');
@@ -31,11 +59,7 @@ function parseRawInput(dataText: string) {
   return { header, rows };
 }
 
-function compare(a, b) {
-  return a < b ? -1 : (a > b) ? 1 : 0
-}
-
-function expandRegions(rows) {
+function expandRegions(rows: InputRow[]): IntermediateRow[] {
   // 1. expand (flatMap) rows by pairs of (region,proportion) separated by "/"
   const result = rows.flatMap(row => {
     return row.regions.map((region, i) => {
@@ -61,7 +85,7 @@ function expandRegions(rows) {
   return result;
 }
 
-function sumRegionAreas(rows) {
+function sumRegionAreas(rows: IntermediateRow[]): ResultRow[] {
   // 4. group by region => sum(areaHa)
   const groups = rows.reduce((areas, row) => {
     const { id, region, areaHa, proportion, totalAreaHa } = row;
@@ -87,109 +111,6 @@ function sumRegionAreas(rows) {
       totalAreaHa,
     }
   })
-}
-
-// TODO: handle escaped cells
-function exportCsv(headers, rows, delimiter = ',') {
-  const headerRow = headers.map(({ label }) => label).join(delimiter)
-  const outputRows = rows.map(row => {
-    return headers.map(({ key }) => row[key]).join(delimiter);
-  });
-
-  return [
-    headerRow,
-    ...outputRows
-  ].join("\n");
-}
-
-function Table({ headers, rows }) {
-  return (
-    <div className="bg-slate-50 rounded-lg shadow-sm py-8 border border-slate-200" >
-      {/* TODO: extract table styling; add dark mode (see https://tailwindcss.com/docs/table-layout) */}
-      <table className="border-collapse table-auto w-full text-sm  text-slate-700">
-        <thead>
-          <tr>
-            {
-              headers.map(({ label }) => {
-                return <th className="border-b border-slate-200 font-medium p-4 pl-8 pt-0 pb-3 text-slate-500 text-left">{label}</th>
-              })
-            }
-          </tr>
-        </thead>
-        <tbody className="bg-white">
-          {
-            rows.map(row => {
-              return <tr>
-                {
-                  headers.map(({ key }) => {
-                    return <td className="border-b border-slate-100 p-4 pl-8 text-slate-500">{row[key]}</td>
-                  })
-                }
-              </tr>
-            })
-          }
-        </tbody>
-      </table>
-    </div>
-  )
-}
-
-function TableDataView({
-  label,
-  table,
-  labelClass,
-  controlsClass,
-  viewClass,
-}: {
-  label: string,
-  table,
-}) {
-  const { headers, rows } = table;
-  const csv = exportCsv(headers, rows);
-
-  return (
-    <Tab.Group>
-      <div className={" self-center mb-0.5 " + (labelClass || "col-span-1")}>
-        <label className="block text-xl font-medium text-slate-700">
-          {label}
-        </label>
-      </div>
-      <div className={"flex justify-end gap-x-4 " + (controlsClass || "col-span-1")}>
-        <Tab.List className="inline-flex space-x-1 rounded-lg bg-slate-50 p-0.5">
-          {
-            ["Table", "CSV"].map(label => {
-              return (
-                <Tab as={React.Fragment}>
-                  {({ selected }) => {
-                    return (
-                      <button className={"focus:outline-none focus:ring-sky-500 focus:ring-2 flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3 " + (selected ? "bg-white shadow" : "")}>
-                        {label}
-                      </button>
-                    )
-                  }}
-                </Tab>
-              )
-            })
-          }
-        </Tab.List>
-
-        <div className="border-r border-r-slate-100"></div>
-
-        <CopyButton copyText={csv} />
-      </div>
-      <div className={viewClass}>
-
-        <Tab.Panels>
-          <Tab.Panel>
-            <Table headers={headers} rows={rows} /></Tab.Panel>
-          <Tab.Panel>
-            <pre className="p-4 border border-slate-200 rounded-lg">{csv}</pre>
-          </Tab.Panel>
-        </Tab.Panels>
-
-      </div>
-    </Tab.Group>
-  )
 }
 
 export default function AreaSeparator() {
