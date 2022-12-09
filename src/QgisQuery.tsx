@@ -79,7 +79,7 @@ export default function QgisQuery() {
       </h1>
       <div className="mt-6 grid gap-6 grid-cols-1 md:grid-rows-[auto_1fr] md:grid-cols-[1fr_auto_3fr]">
         <div className="col-span-1 md:row-span-2 md:pb-2">
-          <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="ids" className="block text-sm font-medium text-gray-700">
             Object IDs
           </label>
           <div className="mt-1">

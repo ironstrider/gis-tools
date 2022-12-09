@@ -134,9 +134,67 @@ function Table({ headers, rows }) {
   )
 }
 
+function TableDataView({
+  label,
+  headers,
+  rows,
+  csv,
+  labelClass,
+  controlsClass,
+  viewClass,
+}: {
+  label: string,
+  headers,
+  rows,
+  csv,
+}) {
+  return (
+    <Tab.Group>
+      <div className={" self-center mb-0.5 " + (labelClass || "col-span-1")}>
+        <label className="block text-xl font-medium text-slate-700">
+          {label}
+        </label>
+      </div>
+      <div className={"flex justify-end gap-x-4 " + (controlsClass || "col-span-1")}>
+        <Tab.List className="inline-flex space-x-1 rounded-lg bg-slate-50 p-0.5">
+          {
+            ["Table", "CSV"].map(label => {
+              return (
+                <Tab as={React.Fragment}>
+                  {({ selected }) => {
+                    return (
+                      <button className={"focus:outline-none focus:ring-sky-500 focus:ring-2 flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3 " + (selected ? "bg-white shadow" : "")}>
+                        {label}
+                      </button>
+                    )
+                  }}
+                </Tab>
+              )
+            })
+          }
+        </Tab.List>
+
+        <div className="border-r border-r-slate-100"></div>
+
+        <CopyButton copyText={csv} />
+      </div>
+      <div className={viewClass}>
+
+        <Tab.Panels>
+          <Tab.Panel>
+            <Table headers={headers} rows={rows} /></Tab.Panel>
+          <Tab.Panel>
+            <pre className="p-4 border border-slate-200 rounded-lg">{csv}</pre>
+          </Tab.Panel>
+        </Tab.Panels>
+
+      </div>
+    </Tab.Group>
+  )
+}
+
 export default function AreaSeparator() {
   const [data, setData] = useState(sampleInput);
-
 
   const input = parseRawInput(data);
 
@@ -164,46 +222,14 @@ export default function AreaSeparator() {
       Region Area Calculator
     </h1>
     <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[2fr_auto_2fr]">
-      <div className="self-end -mb-2">
-        <label htmlFor="data-input" className="block text-xl font-medium text-slate-700">
-          Input
-        </label>
-      </div>
 
-      <div className="row-span-2 border-r border-r-slate-100 opacity-0"></div>
-
-      <Tab.Group>
-        <div className="grid grid-cols-2">
-          <div className="self-end mb-0">
-            <label className="block text-xl font-medium text-slate-700">
-              Output
-            </label>
-          </div>
-          <div className="flex justify-end gap-x-4 mb-0.5">
-            <Tab.List className="inline-flex space-x-1 rounded-lg bg-slate-50 p-0.5 -mb-1.5">
-              {
-                ["Table", "CSV"].map(label => {
-                  return (
-                    <Tab as={React.Fragment}>
-                      {({ selected }) => {
-                        return (
-                          <button className={"focus:outline-none focus:ring-sky-500 focus:ring-2 flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3 " + (selected ? "bg-white shadow" : "")}>
-                            {label}
-                          </button>
-                        )
-                      }}
-                    </Tab>
-                  )
-                })
-              }
-            </Tab.List>
-
-            <div className="border-r border-r-slate-100"></div>
-
-            <CopyButton copyText={resultCsv} />
-          </div>
+      <div className="col-span-3 grid grid-cols-4 gap-x-12 gap-y-4">
+        <div className="self-center mb-0.5 col-span-1">
+          <label className="block text-xl font-medium text-slate-700">
+            Input
+          </label>
         </div>
-        <div>
+        <div className="col-span-2 col-start-1 row-start-2">
           <textarea
             id="data-input"
             name="data-input"
@@ -214,70 +240,26 @@ export default function AreaSeparator() {
             onChange={e => { setData(e.target.value) }}
           />
         </div>
-        <div>
 
-          <Tab.Panels>
-            <Tab.Panel>
-              <Table headers={resultHeaders} rows={resultRows} /></Tab.Panel>
-            <Tab.Panel>
-              <pre className="p-4 border border-slate-200 rounded-lg">{resultCsv}</pre>
-            </Tab.Panel>
-          </Tab.Panels>
-
-        </div>
-      </Tab.Group>
-
-      <div className="col-span-1 md:row-span-2 md:pb-2">
-
+        <TableDataView
+          label="Output"
+          headers={resultHeaders}
+          rows={resultRows}
+          csv={resultCsv}
+          labelClass="col-span-1 col-start-3 row-start-1"
+          controlsClass="col-span-1 col-start-4 row-start-1"
+          viewClass="col-span-2 col-start-3 row-start-2"
+        />
       </div>
-      <div />
-      <div className="col-span-1 md:row-span-2 md:pb-2">
-      </div>
-      <div />
       <div className="col-span-3 my-8 border border-slate-200"></div>
-      <Tab.Group>
-        <div className="grid grid-cols-2 col-span-3">
-          <div className="self-end -mb-2">
-            <label className="block text-xl font-medium text-slate-700">
-              Intermediate
-            </label>
-          </div>
-          <div className="flex justify-end gap-x-4 -mb-1.5">
-            <Tab.List className="inline-flex space-x-1 rounded-lg bg-slate-50 p-0.5 -mb-1.5">
-              {
-                ["Table", "CSV"].map(label => {
-                  return (
-                    <Tab as={React.Fragment}>
-                      {({ selected }) => {
-                        return (
-                          <button className={"focus:outline-none focus:ring-sky-500 focus:ring-2 flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3 " + (selected ? "bg-white shadow" : "")}>
-                            {label}
-                          </button>
-                        )
-                      }}
-                    </Tab>
-                  )
-                })
-              }
-            </Tab.List>
-
-            <div className="border-r border-r-slate-100"></div>
-
-            <CopyButton copyText={intermediateCsv} />
-          </div>
-        </div>
-        <div className="col-span-3">
-
-          <Tab.Panels>
-            <Tab.Panel>
-              <Table headers={intermediateHeaders} rows={intermediateRows} /></Tab.Panel>
-            <Tab.Panel>
-              <pre className="p-4 border border-slate-200 rounded-lg">{intermediateCsv}</pre>
-            </Tab.Panel>
-          </Tab.Panels>
-
-        </div>
-      </Tab.Group>
+      <TableDataView
+        label="Intermediate"
+        headers={intermediateHeaders}
+        rows={intermediateRows}
+        csv={intermediateCsv}
+        labelClass="col-span-2"
+        viewClass="col-span-3"
+      />
     </div>
   </div>)
 }
