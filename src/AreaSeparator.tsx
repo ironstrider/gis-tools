@@ -136,18 +136,17 @@ function Table({ headers, rows }) {
 
 function TableDataView({
   label,
-  headers,
-  rows,
-  csv,
+  table,
   labelClass,
   controlsClass,
   viewClass,
 }: {
   label: string,
-  headers,
-  rows,
-  csv,
+  table,
 }) {
+  const { headers, rows } = table;
+  const csv = exportCsv(headers, rows);
+
   return (
     <Tab.Group>
       <div className={" self-center mb-0.5 " + (labelClass || "col-span-1")}>
@@ -198,37 +197,38 @@ export default function AreaSeparator() {
 
   const input = parseRawInput(data);
 
-  const intermediateRows = expandRegions(input.rows);
-  const resultRows = sumRegionAreas(intermediateRows);
+  const intermediateTable = {
+    headers: [
+      { key: "region", label: "Region" },
+      { key: "id", label: "Row Number" },
+      { key: "totalAreaHa", label: "Total Area (Ha)" },
+      { key: "proportion", label: "Proportion" },
+      { key: "areaHa", label: "Region Area (Ha)" },
+    ],
+    rows: expandRegions(input.rows)
+  };
 
-  const resultHeaders = [
-    { key: "region", label: "Region" },
-    { key: "totalAreaHa", label: "Total Area (Ha)" },
-  ];
-
-  const intermediateHeaders = [
-    { key: "region", label: "Region" },
-    { key: "id", label: "Row Number" },
-    { key: "totalAreaHa", label: "Total Area (Ha)" },
-    { key: "proportion", label: "Proportion" },
-    { key: "areaHa", label: "Region Area (Ha)" },
-  ]
-
-  const resultCsv = exportCsv(resultHeaders, resultRows);
-  const intermediateCsv = exportCsv(intermediateHeaders, intermediateRows);
+  const resultTable = {
+    headers: [
+      { key: "region", label: "Region" },
+      { key: "totalAreaHa", label: "Total Area (Ha)" },
+    ],
+    rows: sumRegionAreas(intermediateTable.rows)
+  };
 
   return (<div>
     <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
       Region Area Calculator
     </h1>
-    <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[2fr_auto_2fr]">
 
+    <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[2fr_auto_2fr]">
       <div className="col-span-3 grid grid-cols-4 gap-x-12 gap-y-4">
         <div className="self-center mb-0.5 col-span-1">
           <label className="block text-xl font-medium text-slate-700">
             Input
           </label>
         </div>
+
         <div className="col-span-2 col-start-1 row-start-2">
           <textarea
             id="data-input"
@@ -243,20 +243,18 @@ export default function AreaSeparator() {
 
         <TableDataView
           label="Output"
-          headers={resultHeaders}
-          rows={resultRows}
-          csv={resultCsv}
+          table={resultTable}
           labelClass="col-span-1 col-start-3 row-start-1"
           controlsClass="col-span-1 col-start-4 row-start-1"
           viewClass="col-span-2 col-start-3 row-start-2"
         />
       </div>
+
       <div className="col-span-3 my-8 border border-slate-200"></div>
+
       <TableDataView
         label="Intermediate"
-        headers={intermediateHeaders}
-        rows={intermediateRows}
-        csv={intermediateCsv}
+        table={intermediateTable}
         labelClass="col-span-2"
         viewClass="col-span-3"
       />
