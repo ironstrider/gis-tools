@@ -54,10 +54,10 @@ export default function CommandPalette<T extends CommandPaletteItem>({
   >
     <Dialog
       onClose={setIsOpen}
-      className="fixed inset-0 p-4 pt-[25vh] overflow-y-auto"
+      className="fixed inset-0 p-4 md:pt-[20vh] overflow-y-auto"
     >
       <Transition.Child
-        className="fixed inset-0 bg-sky-200/75"
+        className="fixed inset-0 bg-sky-200/60"
         enter="duration-300 ease-out"
         enterFrom="opacity-0 backdrop-blur-none"
         enterTo="opacity-100 backdrop-blur-sm"
@@ -82,7 +82,7 @@ export default function CommandPalette<T extends CommandPaletteItem>({
             setIsOpen(false);
             onActivate(value);
           }}
-          className="relative max-w-xl mx-auto bg-white rounded-xl shadow-2xl ring-1 ring-black/5 divide-y divide-slate-200 overflow-hidden"
+          className="relative w-full md:max-w-xl mx-auto bg-white rounded-xl shadow-2xl ring-1 ring-black/5 divide-y divide-slate-200 overflow-hidden flex flex-col"
           value={query}
         >
           <div className="flex items-center px-4">
