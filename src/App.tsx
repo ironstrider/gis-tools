@@ -5,6 +5,7 @@ import CommandPalette from './CommandPalette'
 
 import QgisQuery from './QgisQuery'
 import AreaSeparator from './AreaSeparator'
+import { ReactNode, useEffect } from "react";
 
 
 const tools = [
@@ -34,10 +35,28 @@ const tools = [
   },
 ];
 
+function Title({
+  text
+}: {
+  text: string
+}) {
+  useEffect(() => {
+    console.log('setting title')
+    document.title = text;
+  }, [text]);
+
+  return null;
+}
+
 function App() {
-  const [_, navigate] = useLocation();
+  const [location, navigate] = useLocation();
   // wouter doesn't play nicely with a trailing slash on the base path
   const basePath = "/gis-tools";
+  const appName = "GIS Tools";
+
+  useEffect(() => {
+    console.log('location is', location)
+  }, [location])
 
   return (
     <div className="App">
@@ -55,12 +74,20 @@ function App() {
               <h1 className="inline-block text-xl text-stone-500 tracking-tight">
                 {tool.name}
               </h1>
+              <Title text={`${tool.name} · ${appName}`} />
               <Component />
             </Route>
           })}
 
-          <Route path="/">Press <code>ctrl/cmd + k</code> to get started</Route>
-          <Route>404</Route>
+          <Route path="/">
+            <Title text={`${appName}`} />
+            Press <code>ctrl/cmd + k</code> to get started
+            TODO: homepage; cards w/ tool descriptions?
+          </Route>
+          <Route>
+            <Title text={`Page Not Found · ${appName}`} />
+            TODO: 404 not found
+          </Route>
 
         </Switch>
 
