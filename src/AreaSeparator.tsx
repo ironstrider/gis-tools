@@ -138,10 +138,6 @@ export default function AreaSeparator() {
   };
 
   return (<div>
-    <h1 className="inline-block text-xl text-stone-500 tracking-tight">
-      Region Area Calculator
-    </h1>
-
     <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[2fr_auto_2fr]">
 
       <div className="col-span-3 grid grid-cols-4 gap-x-12 gap-y-4">

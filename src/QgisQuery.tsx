@@ -73,37 +73,32 @@ export default function QgisQuery() {
   inputPlaceholder = inputPlaceholder.replace("…", "⋮")
 
   return (
-    <div className="container mx-auto">
-      <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200">
-        QGIS ObjectID Query Builder
-      </h1>
-      <div className="mt-6 grid gap-6 grid-cols-1 md:grid-rows-[auto_1fr] md:grid-cols-[1fr_auto_3fr]">
-        <div className="col-span-1 md:row-span-2 md:pb-2">
-          <label htmlFor="ids" className="block text-sm font-medium text-gray-700">
-            Object IDs
-          </label>
-          <div className="mt-1">
-            <textarea
-              id="ids"
-              name="ids"
-              rows={10}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
-              placeholder="1&#10;2&#10;3&#10;4&#10;⋮"
-              onChange={onIdsChange}
-            />
-          </div>
+    <div className="mt-6 grid gap-6 grid-cols-1 md:grid-rows-[auto_1fr] md:grid-cols-[1fr_auto_3fr]">
+      <div className="col-span-1 md:row-span-2 md:pb-2">
+        <label htmlFor="ids" className="block text-sm font-medium text-gray-700">
+          Object IDs
+        </label>
+        <div className="mt-1">
+          <textarea
+            id="ids"
+            name="ids"
+            rows={10}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+            placeholder="1&#10;2&#10;3&#10;4&#10;⋮"
+            onChange={onIdsChange}
+          />
         </div>
+      </div>
 
-        {/* border */}
-        <div className="md:row-span-2 md:border-l md:border-l-gray-100 md:mt-0 mt-2 border-t border-t-gray-100" />
+      {/* border */}
+      <div className="md:row-span-2 md:border-l md:border-l-gray-100 md:mt-0 mt-2 border-t border-t-gray-100" />
 
-        <div className="col-span-1">
-          <OutputField label="Numeric" value={numericQuery ?? ''} placeholder={numericPlaceholder} />
-        </div>
+      <div className="col-span-1">
+        <OutputField label="Numeric" value={numericQuery ?? ''} placeholder={numericPlaceholder} />
+      </div>
 
-        <div className="col-span-1">
-          <OutputField label="String" value={stringQuery ?? ''} placeholder={stringPlaceholder} />
-        </div>
+      <div className="col-span-1">
+        <OutputField label="String" value={stringQuery ?? ''} placeholder={stringPlaceholder} />
       </div>
     </div>
   )

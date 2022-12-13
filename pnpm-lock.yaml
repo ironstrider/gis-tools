@@ -17,6 +17,7 @@ specifiers:
   tailwindcss: ^3.2.4
   typescript: ^4.6.4
   vite: ^3.2.3
+  wouter: ^2.9.0
 
 dependencies:
   '@floating-ui/react-dom-interactions': 0.13.1_ib3m5ricvtkl2cll7qpr2f6lvq
@@ -26,6 +27,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-merge-refs: 2.0.1
+  wouter: 2.9.0_react@18.2.0
 
 devDependencies:
   '@heroicons/react': 2.0.13_react@18.2.0
@@ -1578,6 +1580,14 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /wouter/2.9.0_react@18.2.0:
+    resolution: {integrity: sha512-cGi9miU5jgwNaybj4sfzY9ZVhU8EwFsncmi2yDvVbS2pL/yz8ZpAMMiELHr4j8w2NLStgI/ltqDluYvBwPhYoQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}

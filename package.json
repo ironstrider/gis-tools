@@ -19,7 +19,8 @@
     "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-merge-refs": "^2.0.1"
+    "react-merge-refs": "^2.0.1",
+    "wouter": "^2.9.0"
   },
   "devDependencies": {
     "@heroicons/react": "^2.0.13",
