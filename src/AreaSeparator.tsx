@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { TableDataView } from "./Table";
+import { ChangeEvent, useState } from "react";
+import { TableDataInput, TableDataView } from "./Table";
 
 const sampleInput = `
 RE      PERCENT TotalArea_ha
@@ -138,34 +138,25 @@ export default function AreaSeparator() {
   };
 
   return (<div>
-    <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+    <h1 className="inline-block text-xl text-stone-500 tracking-tight">
       Region Area Calculator
     </h1>
 
     <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[2fr_auto_2fr]">
-      <div className="col-span-3 grid grid-cols-4 gap-x-12 gap-y-4">
-        <div className="self-center mb-0.5 col-span-1">
-          <label className="block text-xl font-medium text-slate-700">
-            Input
-          </label>
-        </div>
 
-        <div className="col-span-2 col-start-1 row-start-2">
-          <textarea
-            id="data-input"
-            name="data-input"
-            rows={10}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
-            placeholder="..."
-            value={data.trim()}
-            onChange={e => { setData(e.target.value) }}
-          />
-        </div>
+      <div className="col-span-3 grid grid-cols-4 gap-x-12 gap-y-4">
+
+        <TableDataInput
+          value={data.trim()}
+          onChange={setData}
+          labelClass="col-span-2 col-start-1 row-start-1 self-end"
+          viewClass="col-span-2 col-start-1 row-start-2"
+        />
 
         <TableDataView
           label="Output"
           table={resultTable}
-          labelClass="col-span-1 col-start-3 row-start-1"
+          labelClass="col-span-1 col-start-3 row-start-1 self-end"
           controlsClass="col-span-1 col-start-4 row-start-1"
           viewClass="col-span-2 col-start-3 row-start-2"
         />
@@ -176,7 +167,7 @@ export default function AreaSeparator() {
       <TableDataView
         label="Intermediate"
         table={intermediateTable}
-        labelClass="col-span-2"
+        labelClass="col-span-2 self-end"
         viewClass="col-span-3"
       />
     </div>

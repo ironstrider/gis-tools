@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Tab } from "@headlessui/react";
 import CopyButton from "./CopyButton";
 
@@ -67,6 +67,16 @@ export function Table({ headers, rows }: TableProps) {
   )
 }
 
+function WidgetLabel(props: {
+  children: ReactNode
+}) {
+  return (
+    <label className="block text-md uppercase font-bold text-slate-500">
+      {props.children}
+    </label>
+  )
+}
+
 export function TableDataView({
   label,
   table,
@@ -79,10 +89,8 @@ export function TableDataView({
 
   return (
     <Tab.Group>
-      <div className={"self-center mb-0.5 " + (labelClass || "col-span-1")}>
-        <label className="block text-xl font-medium text-slate-700">
-          {label}
-        </label>
+      <div className={"self-end " + (labelClass || "col-span-1")}>
+        <WidgetLabel>{label}</WidgetLabel>
       </div>
       <div className={"flex justify-end align-end gap-x-4 " + (controlsClass || "col-span-1")}>
         <Tab.List className="inline-flex space-x-1 rounded-lg bg-slate-50 p-0.5">
@@ -120,4 +128,38 @@ export function TableDataView({
       </div>
     </Tab.Group>
   )
+}
+
+export function TableDataInput({
+  value,
+  onChange,
+  labelClass,
+  viewClass,
+}: {
+  value: string | undefined,
+  onChange: (newValue: string) => void,
+  labelClass?: string,
+  viewClass?: string,
+}) {
+
+  return (
+    <>
+      <div className={labelClass}>
+        <WidgetLabel>Input</WidgetLabel>
+      </div>
+
+      <div className={viewClass}>
+        <textarea
+          id="data-input"
+          name="data-input"
+          rows={10}
+          className="block w-full h-full resize-none rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+          placeholder="..."
+          value={value}
+          onChange={e => { onChange(e.target.value) }}
+        />
+      </div>
+    </>
+  )
+
 }
