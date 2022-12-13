@@ -67,13 +67,9 @@ export function Table({ headers, rows }: TableProps) {
   )
 }
 
-function WidgetLabel(props: {
-  children: ReactNode
-}) {
+function WidgetLabel(props: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
-    <label className="block text-md uppercase font-bold text-slate-500">
-      {props.children}
-    </label>
+    <label className="block text-md uppercase font-bold text-slate-500" {...props}/>
   )
 }
 
@@ -118,9 +114,9 @@ export function TableDataView({
       <div className={viewClass}>
 
         <Tab.Panels>
-          <Tab.Panel>
+          <Tab.Panel className="focus:outline-none focus:ring-sky-500 focus:ring-2 rounded-md">
             <Table headers={headers} rows={rows} /></Tab.Panel>
-          <Tab.Panel>
+          <Tab.Panel className="focus:outline-none focus:ring-sky-500 focus:ring-2 rounded-md">
             <pre className="p-4 border border-slate-200 rounded-lg">{csv}</pre>
           </Tab.Panel>
         </Tab.Panels>
