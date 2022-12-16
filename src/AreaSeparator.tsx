@@ -50,8 +50,8 @@ function parseRawInput(dataText: string, delimiter = /[\s]+/g): InputTable {
 
     const id = i + 1;
     const regions = cells[0].split('/');
-    const proportions = cells[0].split('/').map(x => parseFloat(x));
-    const totalAreaHa = parseFloat(cells[0]);
+    const proportions = cells[1].split('/').map(x => parseFloat(x));
+    const totalAreaHa = parseFloat(cells[2]);
 
     return { id, regions, proportions, totalAreaHa }
   });
