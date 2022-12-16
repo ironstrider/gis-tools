@@ -42,7 +42,7 @@ function compare<T>(a: T, b: T) {
   return a < b ? -1 : (a > b) ? 1 : 0
 }
 
-function parseRawInput(dataText: string, delimiter = /[\s]+/g): InputTable {
+function parseRawInput(dataText: string, delimiter = /[\s]+/): InputTable {
   const rawRows = dataText.trim().split("\n");
   const header = rawRows.shift()!.split(delimiter);
   const rows = rawRows.map((rowText, i) => {
