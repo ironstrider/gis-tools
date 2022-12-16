@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { TableDataInput, TableDataView } from "./Table";
 
 const sampleInput = `

@@ -5,7 +5,7 @@ import CommandPalette from './CommandPalette'
 
 import QgisQuery from './QgisQuery'
 import AreaSeparator from './AreaSeparator'
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 
 
 const tools = [
@@ -71,7 +71,7 @@ function App() {
           {tools.map(tool => {
             const Component = tool.component;
             return <Route path={`/${tool.id}`} key={tool.id}>
-              <h1 className="inline-block text-xl text-stone-500 tracking-tight">
+              <h1 className="inline-block text-xl text-slate-500 tracking-tight italic">
                 {tool.name}
               </h1>
               <Title text={`${tool.name} · ${appName}`} />
